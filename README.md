@@ -47,5 +47,17 @@ User Stories
 
 3) As an admin, I want to be able to create and delete users when theyre not a part of the system anymore.
 
+Non-Functional Requirements:
+
+   Performance:
+
+      Should handle x amount of users and x amount of books without errors
+      Efficent searching times (is a time required?)
+
+   Scalability:
+
+      Should be able to easily implement new functions 
+      
+
 
    
