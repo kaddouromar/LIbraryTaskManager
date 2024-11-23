@@ -1,0 +1,3 @@
+[submodule "Desktop/LibraryTaskManager/external/googletest"]
+	path = Desktop/LibraryTaskManager/external/googletest
+	url = https://github.com/google/googletest.git
