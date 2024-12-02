@@ -1,3 +1,0 @@
-C:\cmake-3.31.0-windows-x86_64\cmake-3.31.0-windows-x86_64\bin\cmake.exe -E rm -f CMakeFiles\test_LibraryTaskManager.dir/objects.a
-C:\NEWFOL~1\mingw64\bin\ar.exe qc CMakeFiles\test_LibraryTaskManager.dir/objects.a @CMakeFiles\test_LibraryTaskManager.dir\objects1.rsp
-C:\NEWFOL~1\mingw64\bin\C__~1.EXE -Wl,--whole-archive CMakeFiles\test_LibraryTaskManager.dir/objects.a -Wl,--no-whole-archive -o test_LibraryTaskManager.exe -Wl,--out-implib,libtest_LibraryTaskManager.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles\test_LibraryTaskManager.dir\linkLibs.rsp
