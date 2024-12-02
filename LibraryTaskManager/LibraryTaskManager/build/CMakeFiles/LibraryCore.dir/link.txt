@@ -1,0 +1,2 @@
+C:\NEWFOL~1\mingw64\bin\ar.exe qc libLibraryCore.a CMakeFiles/LibraryCore.dir/book.cpp.obj CMakeFiles/LibraryCore.dir/user.cpp.obj CMakeFiles/LibraryCore.dir/task.cpp.obj
+C:\NEWFOL~1\mingw64\bin\ranlib.exe libLibraryCore.a
