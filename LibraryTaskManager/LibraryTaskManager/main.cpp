@@ -87,7 +87,25 @@ void addBook()
     std::getline(std::cin, genre);
 
     books.emplace_back(bookId, title, author, yearPublished, genre);
-    std::cout << "\nBook added successfully.\n\n";
+
+    // Insertion Sort by Book ID
+    for (size_t i = 1; i < books.size(); ++i)
+    {
+        Book currentBook = books[i];
+        size_t j = i;
+
+        // Move elements of books[0..i-1] that are greater than currentBook to one position ahead
+        while (j > 0 && books[j - 1].getId() > currentBook.getId())
+        {
+            books[j] = books[j - 1];
+            --j;
+        }
+
+        // Place the currentBook at its correct position
+        books[j] = currentBook;
+    }
+
+    std::cout << "\nBook added and sorted successfully.\n\n";
 }
 
 void editBook()
@@ -126,9 +144,17 @@ void editBook()
                 book.setGenre(genre);
 
             std::cout << "\nBook details updated successfully.\n\n";
+            std::sort(books.begin(), books.end(), [](const Book &a, const Book &b)
+                      {
+                          return a.getId() < b.getId(); // Sorting by Book ID
+                      });
+
             return;
         }
     }
+
+    std::cout << "\nBook ID not found.\n\n";
+}
 
     std::cout << "\nBook ID not found.\n\n";
 }
