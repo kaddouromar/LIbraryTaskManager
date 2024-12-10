@@ -1,4 +1,4 @@
- Design Document: Library Task Manager
+***Design Document: Library Task Manager***
 
  Overview
 The **Library Task Manager** is a command-line-based system designed to manage books, users, and library tasks efficiently. It allows administrators to perform actions such as adding, editing, and removing books and users, as well as creating and tracking tasks. This document outlines the key design choices and architecture of the project.
