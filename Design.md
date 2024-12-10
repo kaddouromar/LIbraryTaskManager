@@ -35,7 +35,8 @@ The **Library Task Manager** is a command-line-based system designed to manage b
 
 ---
 
- 2. Architecture\n
+ 2. Architecture
+    
 The project follows a modular structure with distinct components for:
 1. **Global Containers:** Store books, users, and tasks as vectors.
 2. **Menus and Interaction:** Functions to navigate and interact with the system.
