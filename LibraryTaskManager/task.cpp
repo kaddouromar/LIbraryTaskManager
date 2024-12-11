@@ -22,7 +22,7 @@ TaskStatus Task::getStatus() const { return status; }
 std::string Task::getDateCreated() const { return formatDate(dateCreated); }
 
 std::string Task::getDateCompleted() const { 
-    return dateCompleted != 0 ? formatDate(dateCompleted) : "Not Completed"; 
+    return dateCompleted != 0 ? formatDate(dateCompleted) : "Completed"; 
 }
 
 void Task::setDescription(const std::string& newDescription) { description = newDescription; }
@@ -90,4 +90,3 @@ void Task::deleteTaskById(std::vector<Task>& tasks, int taskId) {
         std::cout << "Task with ID " << taskId << " not found.\n";  // If task not found
     }
 }
-
