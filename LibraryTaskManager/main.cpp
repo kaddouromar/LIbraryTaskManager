@@ -420,18 +420,21 @@ void editTask() {
 
 void deleteCompletedTask() {
     int taskId;
-        std::cout << "\nEnter Task In Detail\n"
+    std::cout << "\nEnter Task In Detail\n"
               << "\n----------------------------\n";
     std::cout << "Enter Task ID to delete: ";
-    taskId = getValidInput();
+    taskId = getValidInput();  // Assuming you have a method to get valid input for task ID.
 
-    auto it = std::remove_if(tasks.begin(), tasks.end(),
-                             [taskId](const Task& task) { return task.getTaskId() == taskId && task.getStatus() == TaskStatus::Completed; });
+    // Search for the task by its ID
+    auto it = std::find_if(tasks.begin(), tasks.end(),
+                           [taskId](const Task& task) { return task.getTaskId() == taskId; });
+
+    // If found, delete it
     if (it != tasks.end()) {
-        tasks.erase(it, tasks.end());
-        std::cout << "Task deleted successfully.\n";
+        tasks.erase(it);  // Erase the task from the vector
+        std::cout << "Task with ID " << taskId << " has been deleted successfully.\n";
     } else {
-        std::cout << "No completed task found with the given ID.\n";
+        std::cout << "Task with ID " << taskId << " not found.\n";
     }
 }
 
@@ -460,7 +463,7 @@ int main()
     while (true)
     {
         displayMenu();
-        std::cin >> choice;
+        choice=getValidInput();
 
         switch (choice)
         {
