@@ -1,62 +1,93 @@
-#ifndef TASK_H
-#define TASK_H
+#include "task.h"
+#include <iostream>
+#include <algorithm>  // Include this header to use std::find_if
+#include <vector> // For handling the vector of users
 
-#include <string>
-#include <ctime>
-#include <vector>    // For using std::vector
-#include "user.h"    // Include User header to access User class
-#include "book.h"    // Include Book header if necessary for book details
+Task::Task(int taskId, TaskType type, const std::string& description, int bookId, int userId)
+    : taskId(taskId), type(type), description(description), bookId(bookId), userId(userId),
+      status(TaskStatus::Pending), dateCreated(std::time(nullptr)), dateCompleted(0) {}
 
-enum class TaskType {
-    BorrowBook,
-    ReturnBook,
-    Maintenance,
-    BookOrder,
-    Custom
-};
+int Task::getTaskId() const { return taskId; }
 
-enum class TaskStatus {
-    Pending,
-    Completed
-};
+TaskType Task::getType() const { return type; }
 
-class Task {
-private:
-    int taskId;
-    TaskType type;
-    std::string description;
-    int bookId;
-    int userId;
-    TaskStatus status;
-    std::time_t dateCreated;
-    std::time_t dateCompleted;
+int Task::getBookId() const { return bookId; }
 
-    std::string formatDate(std::time_t time) const;  // Make this method const since it doesn't modify the object
+int Task::getUserId() const { return userId; }
 
-public:
-    Task(int taskId, TaskType type, const std::string& description, int bookId, int userId);
+std::string Task::getDescription() const { return description; }
 
-    int getTaskId() const;
-    TaskType getType() const;
-    int getBookId() const;
-    int getUserId() const;
-    std::string getDescription() const;
-    TaskStatus getStatus() const;
-    std::string getDateCreated() const;
-    std::string getDateCompleted() const;
+TaskStatus Task::getStatus() const { return status; }
 
-    void setDescription(const std::string& newDescription);
-    void completeTask();
-    void displayTaskInfo() const;
+std::string Task::getDateCreated() const { return formatDate(dateCreated); }
 
-    static std::string taskTypeToString(TaskType type);
-    static std::string taskStatusToString(TaskStatus status);
+std::string Task::getDateCompleted() const { 
+    return dateCompleted != 0 ? formatDate(dateCompleted) : "Not Completed"; 
+}
 
-    // Updated method signature to include borrowDate and dueDate
-    void processBorrowBook(std::vector<User>& users, const std::string& borrowDate, const std::string& dueDate);
+void Task::setDescription(const std::string& newDescription) { description = newDescription; }
 
-    // Declare deleteTaskById method to delete a task by its task ID
-    static void deleteTaskById(std::vector<Task>& tasks, int taskId); 
-};
+void Task::completeTask() {
+    status = TaskStatus::Completed;
+    dateCompleted = std::time(nullptr); // Set the current time as completion time
+}
 
-#endif
+void Task::displayTaskInfo() const {
+    std::cout << "Task ID: " << taskId << "\n"
+              << "Type: " << taskTypeToString(type) << "\n"
+              << "Description: " << description << "\n"
+              << "Book ID: " << bookId << "\n"
+              << "User ID: " << userId << "\n"
+              << "Created: " << getDateCreated() << "\n"
+              << "Completed: " << getDateCompleted() << "\n";
+}
+
+std::string Task::taskTypeToString(TaskType type) {
+    switch (type) {
+        case TaskType::BorrowBook: return "Borrow Book";
+        case TaskType::ReturnBook: return "Return Book";
+        case TaskType::Maintenance: return "Maintenance";
+        case TaskType::BookOrder: return "Book Order";
+        case TaskType::Custom: return "Custom";
+        default: return "Unknown";
+    }
+}
+
+std::string Task::taskStatusToString(TaskStatus status) {
+    return status == TaskStatus::Pending ? "Pending" : "Completed";
+}
+
+std::string Task::formatDate(std::time_t time) const {  // Make this const
+    char buffer[20];
+    std::tm* tm_info = std::localtime(&time);
+    std::strftime(buffer, sizeof(buffer), "%Y-%m-%d %H:%M:%S", tm_info);
+    return std::string(buffer);
+}
+
+// Method to process the borrow book task
+void Task::processBorrowBook(std::vector<User>& users, const std::string& borrowDate, const std::string& dueDate) {
+    // Find the user by userId and update their borrowed books list
+    for (auto& user : users) {
+        if (user.getUserId() == userId) {  // Corrected to getUserId()
+            user.borrowBook(bookId, borrowDate, dueDate);  // Update the user's borrowed books list with the correct parameters
+            std::cout << "User " << user.getName() << " has borrowed book ID " << bookId << "." << std::endl;
+            break;
+        }
+    }
+}
+
+// Method to delete a task by its task ID
+void Task::deleteTaskById(std::vector<Task>& tasks, int taskId) {
+    // Find and remove the task with the given ID
+    auto it = std::remove_if(tasks.begin(), tasks.end(), [taskId](const Task& task) {
+        return task.getTaskId() == taskId;  // Match task by ID
+    });
+
+    if (it != tasks.end()) {
+        tasks.erase(it, tasks.end());  // Erases the matched task
+        std::cout << "Task with ID " << taskId << " has been deleted.\n";  // Confirmation message
+    } else {
+        std::cout << "Task with ID " << taskId << " not found.\n";  // If task not found
+    }
+}
+
