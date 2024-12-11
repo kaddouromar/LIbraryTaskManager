@@ -51,12 +51,17 @@ A C++ Task manager designed to handle tasks for a library. Things include orderi
 
    1) ***Performance:***
 
-      Should handle x amount of users and x amount of books without errors
-      Efficent searching times (is a time required?)
+      Should handle 5,000 users and 50,000 books without errors.
+      Efficent searching times (Using std::Vectors).
+      Add Sorted: O(n).
+      Delete Specific item: O(n).
+      Search: O(n).
+      
+   3) ***Scalability:***
 
-   2) ***Scalability:***
+      a. Should be able to easily implement new functions.
 
-      Should be able to easily implement new functions 
+      b. Should be able to increase the size of the library's database easily.
 
 ***The system uses several core components to handle different aspects of library management:***
 
