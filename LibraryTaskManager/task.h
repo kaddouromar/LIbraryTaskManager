@@ -54,6 +54,9 @@ public:
 
     // Updated method signature to include borrowDate and dueDate
     void processBorrowBook(std::vector<User>& users, const std::string& borrowDate, const std::string& dueDate);
+
+    // Declare deleteTaskById method to delete a task by its task ID
+    static void deleteTaskById(std::vector<Task>& tasks, int taskId); 
 };
 
 #endif
