@@ -1,5 +1,6 @@
 #include "task.h"
 #include <iostream>
+#include <algorithm>  // Include this header to use std::find_if
 #include <vector> // For handling the vector of users
 
 Task::Task(int taskId, TaskType type, const std::string& description, int bookId, int userId)
@@ -21,7 +22,7 @@ TaskStatus Task::getStatus() const { return status; }
 std::string Task::getDateCreated() const { return formatDate(dateCreated); }
 
 std::string Task::getDateCompleted() const { 
-    return dateCompleted != 0 ? formatDate(dateCompleted) : "Completed"; 
+    return dateCompleted != 0 ? formatDate(dateCompleted) : "Not Completed"; 
 }
 
 void Task::setDescription(const std::string& newDescription) { description = newDescription; }
@@ -72,5 +73,20 @@ void Task::processBorrowBook(std::vector<User>& users, const std::string& borrow
             std::cout << "User " << user.getName() << " has borrowed book ID " << bookId << "." << std::endl;
             break;
         }
+    }
+}
+
+// Method to delete a task by its task ID
+void Task::deleteTaskById(std::vector<Task>& tasks, int taskId) {
+    // Find and remove the task with the given ID
+    auto it = std::remove_if(tasks.begin(), tasks.end(), [taskId](const Task& task) {
+        return task.getTaskId() == taskId;  // Match task by ID
+    });
+
+    if (it != tasks.end()) {
+        tasks.erase(it, tasks.end());  // Erases the matched task
+        std::cout << "Task with ID " << taskId << " has been deleted.\n";  // Confirmation message
+    } else {
+        std::cout << "Task with ID " << taskId << " not found.\n";  // If task not found
     }
 }
