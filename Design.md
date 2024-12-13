@@ -40,7 +40,7 @@ The **Library Task Manager** is a command-line-based system designed to manage b
 The project follows a modular structure with distinct components for:
 1. **Global Containers:** Store books, users, and tasks as vectors.
 2. **Menus and Interaction:** Functions to navigate and interact with the system.
-3. **Data Models:** Encapsulated classes for `Book`, `User`, and `Task`.
+3. **Data Models:** Encapsulated classes for Book, User, and Task.
 4. **Task Management:** Functions for creating and displaying tasks.
 
  File Structure
@@ -54,35 +54,35 @@ The project follows a modular structure with distinct components for:
  3. Data Models
  Book
 Attributes:
-- `int id`
-- `std::string title`
-- `std::string author`
-- `int yearPublished`
-- `std::string genre`
+- int id
+- std::string title
+- std::string author
+- int yearPublished
+- std::string genre
 
 Key Methods:
-- `getId()`, `setTitle()`, `displayBookInfo()`
+- getId(), setTitle(), displayBookInfo()
 
 ### User
 Attributes:
-- `int id`
-- `std::string name`
-- `std::string faculty`
-- `int age`
+- int id
+- std::string name
+- std::string faculty
+- int age
 
 Key Methods:
-- `getId()`, `setName()`, `displayUserInfo()`
+- getId(), setName(), displayUserInfo()
 
 ### Task
 Attributes:
-- `int taskId`
-- `TaskType type` (enum)
-- `std::string description`
-- `int bookId`
-- `int userId`
+- int taskId
+- TaskType type (enum)
+- std::string description
+- int bookId
+- int userId
 
 Key Methods:
-- `getTaskId()`, `displayTaskInfo()`
+- getTaskId(), displayTaskInfo()
 
 ---
 
@@ -98,7 +98,7 @@ Key Methods:
 ---
 
  5. Sorting and Searching
-- **Sorting:** Books are sorted by `id` using insertion sort for efficient management.
+- **Sorting:** Books are sorted by id using insertion sort for efficient management.
 - **Searching:** Keyword-based search is implemented for books and users.
 
  Example:
@@ -115,7 +115,7 @@ For books:
   - Book Order
   - Custom
 
-- **Task History:** All created tasks are stored and can be viewed using the `viewTaskHistory` function.
+- **Task History:** All created tasks are stored and can be viewed using the viewTaskHistory function.
 
 ---
 
