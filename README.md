@@ -1,76 +1,37 @@
-# LibraryTaskManager
-A C++ Task manager designed to handle tasks for a library. Things include ordering new books, tracking borrowed and returned books, users, and various other tasks.
+The **Library Task Manager** is a command-line-based system designed to efficiently manage books, users, and library-related tasks. This document provides an overview of the project, including features, architecture, and usage guidelines.
 
-***Requirement Specification:***
+***Getting Started***
 
-1) **Book Managment**
-
-   a) Add a new book
-   
-   b) Edit details of book (Author, Title, Year Published, Genre)
-
-   c) Delete book**
-   
-   d) Search for book (By Title, Genre, Author)
-   
-   e) display book info and history of who borrowed it
-   
-2) **User Managment**
-
-   a) Add a new user (User ID)
-   
-   b) Edit details of user
-   
-   c) Delete user
-   
-   d) Search for user using different criteria
-   
-   e) view user information and borrowed books
-   
-3) **Task Managment**
-
-   a) Create tasks for borrowing/returning books
-   
-   b) Edit tasks
-   
-   c) Delete tasks when completed
-   
-   d) history of tasks (task log)
-   
-   e) if we need any other tasks (maintenence of library, placing orders for books, etc)
-
-***User Stories***
-
-**As a librarian,** I want to be able to add a new book to the system, so that they are available for borrowing.
-
-**As a librarian,** I want to be able to add, manage, and remove users, so that they are able to borrow books.
-
-**As a librarian,** I want to initiate & keep track of borrowing & returning of books
-
-***Non-Functional Requirements:***
-
-   1) ***Performance:***
-
-      Should handle 5,000 users and 50,000 books without errors.
-      Efficent searching times (Using std::Vectors).
-      Add Sorted: O(n).
-      Delete Specific item: O(n).
-      Search: O(n).
+To download this project: Do either of the following:
+A) Download the ready zip file licated in the repository, or
+B) Clone the repository:
+   **Prerequisites**
+      i) A C++ compiler (e.g., GCC, Clang, or MSVC).
+      ii) A terminal or command prompt to run the program.
       
-   3) ***Scalability:***
-
-      a. Should be able to easily implement new functions.
-
-      b. Should be able to increase the size of the library's database easily.
-
-***The system uses several core components to handle different aspects of library management:***
-
-**Book Management**: A class to manage books, including adding, updating, and searching for books.
-
-**User Management**: A class for managing users (e.g., adding users, updating details).
-
-**Task Management**: A class to manage tasks related to borrowing, returning, and maintaining books.
+   a) Clone the Repository
+      git clone <repository-url>
+   b) Navigate to the project directory:
+      cd library-task-manager
+   c) Compile the program:
+      g++ main.cpp book.cpp user.cpp task.cpp -o LibraryTaskManager
+   d) Run the Program:
+      ./LibraryTaskManager
       
+***File Structure***
 
-
+   main.cpp: Contains the main program loop and menu logic.
    
+   book.h & **book.cpp**: Define the Book class and its methods.
+   
+   user.h & **user.cpp**: Define the User class and its methods.
+   
+   task.h & **task.cpp**: Define the Task class and its methods.
+
+***Error Handling***
+
+   Input Validation: Ensures valid input for IDs, strings, and task types.
+   
+   Error Messages: Inform users when an ID is not found or input is invalid.
+   
+   Duplicate Prevention: Avoid duplicate entries for books or users.
