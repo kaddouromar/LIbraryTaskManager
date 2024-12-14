@@ -65,20 +65,24 @@ void taskManagementMenu()
 }
 
 // Function to validate integer input
-int getValidInput() {
+int getValidInput()
+{
     int value;
-    while (true) {
+    while (true)
+    {
         std::cin >> value;
-        if (std::cin.fail()) {
-            std::cin.clear();  // Clear the error flag
-            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');  // Discard invalid input
+        if (std::cin.fail())
+        {
+            std::cin.clear();                                                   // Clear the error flag
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Discard invalid input
             std::cout << "Invalid input. Please enter a number: ";
-        } else {
+        }
+        else
+        {
             return value;
         }
     }
 }
-
 
 // Book Management Functions
 void addBook()
@@ -140,7 +144,6 @@ void addBook()
 
     std::cout << "\nBook added and sorted successfully.\n\n";
 }
-
 
 void editBook()
 {
@@ -218,8 +221,8 @@ void searchBook()
 {
     std::string keyword;
     std::cin.ignore(); // Ignore newline
-        std::cout << "\nBook Searching\n"
-                  << "-------------------\n";
+    std::cout << "\nBook Searching\n"
+              << "-------------------\n";
     std::cout << "Enter search keyword (Name of author, Title or Genre): ";
     std::getline(std::cin, keyword);
 
@@ -277,31 +280,38 @@ void addUser()
     users.emplace_back(userId, name, faculty, age);
     std::cout << "\nUser added successfully.\n\n";
 }
-void editUser() {
+
+void editUser()
+{
     int userId;
-    
+
     std::cout << "\nEnter User Details To Edit\n"
               << "-------------------------------\n";
     std::cout << "Enter User ID to edit: ";
     userId = getValidInput();
 
-    for (auto& user : users) {
-        if (user.getUserId() == userId) {
+    for (auto &user : users)
+    {
+        if (user.getUserId() == userId)
+        {
             std::string name, faculty;
             int age;
 
             std::cin.ignore();
             std::cout << "Enter New Name (leave blank to keep current): ";
             std::getline(std::cin, name);
-            if (!name.empty()) user.setName(name);
+            if (!name.empty())
+                user.setName(name);
 
             std::cout << "Enter New Faculty (leave blank to keep current): ";
             std::getline(std::cin, faculty);
-            if (!faculty.empty()) user.setFaculty(faculty);
+            if (!faculty.empty())
+                user.setFaculty(faculty);
 
             std::cout << "Enter New Age (0 to keep current): ";
             age = getValidInput();
-            if (age != 0) user.setAge(age);
+            if (age != 0)
+                user.setAge(age);
 
             std::cout << "User details updated successfully.\n";
             return;
@@ -310,33 +320,41 @@ void editUser() {
     std::cout << "User ID not found.\n";
 }
 
-void deleteUser() {
+void deleteUser()
+{
     int userId;
-    
+
     std::cout << "\nEnter User Details To Delete\n"
               << "--------------------------------\n";
     std::cout << "Enter User ID to delete: ";
     userId = getValidInput();
 
     auto it = std::remove_if(users.begin(), users.end(),
-                             [userId](const User& user) { return user.getUserId() == userId; });
-    if (it != users.end()) {
+                             [userId](const User &user)
+                             { return user.getUserId() == userId; });
+    if (it != users.end())
+    {
         users.erase(it, users.end());
         std::cout << "User deleted successfully.\n";
-    } else {
+    }
+    else
+    {
         std::cout << "User ID not found.\n";
     }
 }
 
-void searchUser() {
+void searchUser()
+{
     int userId;
     std::cout << "\nUser Searching\n"
-             << "-------------------\n";
+              << "-------------------\n";
     std::cout << "Enter User ID to search: ";
     userId = getValidInput();
 
-    for (const auto& user : users) {
-        if (user.getUserId() == userId) {
+    for (const auto &user : users)
+    {
+        if (user.getUserId() == userId)
+        {
             user.displayUserInfo();
             return;
         }
@@ -344,19 +362,22 @@ void searchUser() {
     std::cout << "User ID not found.\n";
 }
 
-void displayAllUsers() {
-    if (users.empty()) {
+void displayAllUsers()
+{
+    if (users.empty())
+    {
         std::cout << "No users found.\n";
-    } else {
-        for (const auto& user : users) {
+    }
+    else
+    {
+        for (const auto &user : users)
+        {
             user.displayUserInfo();
             std::cout << "-------------------\n";
         }
     }
 }
 
-
-// Task Management Functions
 void createTask() {
     int typeChoice, bookId = 0, userId = 0;
     std::string description;
@@ -378,15 +399,32 @@ void createTask() {
         std::cout << "-------------------\n";
         std::cout << "Enter Book ID: ";
         bookId = getValidInput();
-        bool validBook = std::any_of(books.begin(), books.end(), [bookId](const Book& book) { return book.getId() == bookId; });
+
+        bool validBook = std::any_of(books.begin(), books.end(), [bookId](const Book &book) {
+            return book.getId() == bookId;
+        });
+
         if (!validBook) {
             std::cout << "Invalid Book ID.\n";
             return;
         }
 
+        // Find the book and check if it's available
+        auto bookIt = std::find_if(books.begin(), books.end(), [bookId](const Book &book) {
+            return book.getId() == bookId;
+        });
+
+        if (bookIt != books.end() && type == TaskType::BorrowBook && !bookIt->getAvailability()) {
+            std::cout << "This book is already borrowed and cannot be borrowed again until returned.\n";
+            return;  // Prevent borrowing if the book is already borrowed
+        }
+
         std::cout << "Enter User ID: ";
         userId = getValidInput();
-        bool validUser = std::any_of(users.begin(), users.end(), [userId](const User& user) { return user.getUserId() == userId; });
+        bool validUser = std::any_of(users.begin(), users.end(), [userId](const User &user) {
+            return user.getUserId() == userId;
+        });
+
         if (!validUser) {
             std::cout << "Invalid User ID.\n";
             return;
@@ -395,29 +433,45 @@ void createTask() {
         // Borrow or Return Book Task Logic
         if (type == TaskType::BorrowBook) {
             std::string borrowDate, dueDate;
-            std::cout << "";
             std::getline(std::cin, borrowDate);
             std::cout << "Enter Due Date (YYYY-MM-DD): ";
             std::getline(std::cin, dueDate);
 
             // Find the user and borrow the book
-            for (auto& user : users) {
+            for (auto &user : users) {
                 if (user.getUserId() == userId) {
                     user.borrowBook(bookId, borrowDate, dueDate);
                     break;
                 }
             }
-            std::cout << "Book borrowed successfully.\n";
-        }
 
+            // Mark the book as borrowed
+            if (bookIt != books.end()) {
+                bookIt->setAvailability(false);
+                std::cout << "Book borrowed successfully.\n";
+                std::cout << "Due Date: " << dueDate << "\n";  // Show the due date
+            }
+        }
         else if (type == TaskType::ReturnBook) {
             // Find the user and return the book
-            for (auto& user : users) {
+            bool returned = false;
+            for (auto &user : users) {
                 if (user.getUserId() == userId) {
                     user.returnBook(bookId);
-                    std::cout << "Book returned successfully.\n";
+                    returned = true;
                     break;
                 }
+            }
+
+            if (!returned) {
+                std::cout << "The user has not borrowed this book.\n";
+                return;
+            }
+
+            // Mark the book as returned
+            if (bookIt != books.end()) {
+                bookIt->setAvailability(true);
+                std::cout << "Book returned successfully.\n";
             }
         }
     }
@@ -430,15 +484,19 @@ void createTask() {
 
     std::cout << "Task created successfully.\n";
 }
-void editTask() {
+
+void editTask()
+{
     int taskId;
     std::cout << "\nEnter Task In Detail\n"
-          << "\n----------------------------\n";
+              << "\n----------------------------\n";
     std::cout << "Enter Task ID to edit: ";
     taskId = getValidInput();
 
-    for (auto& task : tasks) {
-        if (task.getTaskId() == taskId) {
+    for (auto &task : tasks)
+    {
+        if (task.getTaskId() == taskId)
+        {
             std::string description;
             std::cout << "Enter new task description: ";
             std::cin.ignore();
@@ -451,26 +509,30 @@ void editTask() {
     std::cout << "Task ID not found.\n";
 }
 
-void deleteCompletedTask() {
+void deleteCompletedTask()
+{
     int taskId;
     std::cout << "\nEnter Task In Detail\n"
               << "\n----------------------------\n";
     std::cout << "Enter Task ID to delete: ";
-    taskId = getValidInput();  // Assuming you have a method to get valid input for task ID.
+    taskId = getValidInput(); // Assuming you have a method to get valid input for task ID.
 
     // Search for the task by its ID
     auto it = std::find_if(tasks.begin(), tasks.end(),
-                           [taskId](const Task& task) { return task.getTaskId() == taskId; });
+                           [taskId](const Task &task)
+                           { return task.getTaskId() == taskId; });
 
     // If found, delete it
-    if (it != tasks.end()) {
-        tasks.erase(it);  // Erase the task from the vector
+    if (it != tasks.end())
+    {
+        tasks.erase(it); // Erase the task from the vector
         std::cout << "Task with ID " << taskId << " has been deleted successfully.\n";
-    } else {
+    }
+    else
+    {
         std::cout << "Task with ID " << taskId << " not found.\n";
     }
 }
-
 
 void viewTaskHistory()
 {
@@ -496,7 +558,7 @@ int main()
     while (true)
     {
         displayMenu();
-        choice=getValidInput();
+        choice = getValidInput();
 
         switch (choice)
         {
@@ -537,16 +599,16 @@ int main()
                 addUser();
                 break;
             case 2:
-                editUser(); 
+                editUser();
                 break;
             case 3:
-                deleteUser(); 
+                deleteUser();
                 break;
             case 4:
-                searchUser(); 
+                searchUser();
                 break;
             case 5:
-                displayAllUsers(); 
+                displayAllUsers();
                 break;
             case 6:
                 break;
@@ -563,11 +625,11 @@ int main()
             case 1:
                 createTask();
                 break;
-            case 2: 
+            case 2:
                 editTask();
                 break;
-            case 3: 
-                deleteCompletedTask(); 
+            case 3:
+                deleteCompletedTask();
                 break;
             case 4:
                 viewTaskHistory();
