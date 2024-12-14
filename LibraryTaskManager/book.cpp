@@ -68,11 +68,17 @@ void Book::returnBook(const std::string& returnDate) {
         std::cerr << "\nBook is already available.\n";
         return;
     }
+
+    // Update the borrow history with the return date
     if (!history.empty()) {
-        history.back().returnDate = returnDate;
+        history.back().returnDate = returnDate;  // Set the return date for the last borrow record
     }
+
+    // Mark the book as available
     isAvailable = true;
+    std::cout << "Book has been returned successfully.\n";
 }
+
 
 // History
 const std::vector<BorrowHistory>& Book::getHistory() const {
