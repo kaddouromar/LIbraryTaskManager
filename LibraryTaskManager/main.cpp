@@ -89,16 +89,33 @@ void addBook()
 
     std::cout << "\nEnter Book Details\n"
               << "---------------------\n";
-    std::cout << "Enter Book ID: ";
-    bookId = getValidInput();
-    std::cin.ignore(); // Ignore newline
+
+    // Get Book ID and check if it exists
+    while (true)
+    {
+        std::cout << "Enter Book ID: ";
+        bookId = getValidInput();
+
+        bool idExists = std::any_of(books.begin(), books.end(), [bookId](const Book &book)
+                                    { return book.getId() == bookId; });
+        if (idExists)
+        {
+            std::cout << "Book ID already exists. Please enter a different ID.\n";
+        }
+        else
+        {
+            break; // Exit loop once valid ID is entered
+        }
+    }
+
+    std::cin.ignore(); // Clear any leftover newline character
     std::cout << "Enter Title: ";
     std::getline(std::cin, title);
     std::cout << "Enter Author: ";
     std::getline(std::cin, author);
     std::cout << "Enter Year Published: ";
     yearPublished = getValidInput();
-    std::cin.ignore(); // Ignore newline
+    std::cin.ignore(); // Clear any leftover newline character
     std::cout << "Enter Genre: ";
     std::getline(std::cin, genre);
 
@@ -123,6 +140,7 @@ void addBook()
 
     std::cout << "\nBook added and sorted successfully.\n\n";
 }
+
 
 void editBook()
 {
@@ -230,8 +248,24 @@ void addUser()
 
     std::cout << "\nEnter User Details\n"
               << "----------------------\n";
-    std::cout << "Enter User ID: ";
-    userId = getValidInput();
+
+    // Check for unique User ID
+    while (true) {
+        std::cout << "Enter User ID: ";
+        userId = getValidInput();
+
+        // Check if user ID already exists
+        bool idExists = std::any_of(users.begin(), users.end(), [userId](const User& user) {
+            return user.getUserId() == userId;
+        });
+
+        if (idExists) {
+            std::cout << "This User ID already exists. Please enter a unique User ID.\n";
+        } else {
+            break;
+        }
+    }
+
     std::cin.ignore(); // Ignore newline
     std::cout << "Enter Name: ";
     std::getline(std::cin, name);
@@ -243,7 +277,6 @@ void addUser()
     users.emplace_back(userId, name, faculty, age);
     std::cout << "\nUser added successfully.\n\n";
 }
-
 void editUser() {
     int userId;
     
