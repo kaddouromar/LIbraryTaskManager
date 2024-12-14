@@ -127,16 +127,21 @@ For books:
 ---
 
  8. Future Improvements
-1. **Enhanced Search:**
-   - Add filters for more precise searching (e.g., by year or genre).
-2. **Improved Sorting:**
+
+ **User Notifications**
+   - Allows for alerts and reminders to return books.
+ **Improved Sorting:**
    - Allow sorting by attributes other than ID, such as title or author.
-3. **Task Management:**
+ **Task Management:**
    - Include task status (e.g., pending, completed).
    - Allow task editing.
-4. **Data Persistence:**
+ **Data Persistence:**
    - Save and load data from files to retain changes across sessions.
-5. **Graphical Interface:**
+ **Graphical Interface:**
    - Develop a GUI for more intuitive user interaction.
+ **Mobile App Integration**
+   - Allows easier use for users.
+ **Cloud Integration**
+   - Allows multiple librarians to access same database. 
 
 ---
